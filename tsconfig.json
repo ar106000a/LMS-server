@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    /* Base Options */
+    "target": "ESNext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "ignoreDeprecations": "6.0",
+
+    /* Interop Constraints */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Strictness */
+    "strict": true, // Required for Zod to infer types accurately!
+    "skipLibCheck": true, // Skips checking type definitions of node_modules
+
+    /* Projects */
+    "rootDir": "./", // Outlines where your TypeScript code lives
+    "outDir": "./dist" // Where the compiled JavaScript will be generated
+  },
+  "include": ["src/**/*"], // Tells TS to only compile files inside the src folder
+  "ts-node": {
+    // Fallback configuration if you use ts-node/ts-node-dev
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  }
+}

@@ -1,0 +1,44 @@
+import { CourseStatus, Course } from "../../../../generated/prisma/client";
+import { CourseRepository } from "../repositories/course.repository";
+import { InstructorRepository } from "../repositories/instructor.repository";
+import { CreateCourseDto } from "../dtos/create-course.dto";
+import { NotFoundError } from "../../../utils/error";
+import { generateSlug } from "../../../shared/utils/slug";
+
+export class CreateCourseService {
+  constructor(
+    private courseRepo = new CourseRepository(),
+    private instructorRepo = new InstructorRepository(),
+  ) {}
+
+  async execute(userId: string, dto: CreateCourseDto): Promise<Course> {
+    // 1. Verify corresponding InstructorProfile exists for the given active User ID
+    const instructorProfile = await this.instructorRepo.findByUserId(userId);
+    if (!instructorProfile) {
+      throw new NotFoundError("Instruction Profile");
+    }
+
+    // 2. Generate a resilient unique URL slug
+    let slug = generateSlug(dto.title);
+    let existingCourse = await this.courseRepo.findBySlug(slug);
+
+    // Fallback collision handler loop (rare)
+    while (existingCourse) {
+      slug = generateSlug(dto.title);
+      existingCourse = await this.courseRepo.findBySlug(slug);
+    }
+
+    // 3. Persist entry inside database forcing standard initial status to DRAFT
+    const newCourse = await this.courseRepo.create({
+      title: dto.title,
+      description: dto.description,
+      price: dto.price,
+      thumbnailUrl: dto.thumbnailUrl,
+      slug,
+      status: CourseStatus.DRAFT,
+      instructorId: instructorProfile.id,
+    });
+
+    return newCourse;
+  }
+}
