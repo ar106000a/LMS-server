@@ -39,7 +39,14 @@ router.get(
   validate(getLessonsSchema),
   getLessonsController.handle,
 );
-
+// Reorder Lessons
+router.patch(
+  "/lessons/reorder",
+  authenticate as any,
+  authorize("INSTRUCTOR", "ADMIN") as any,
+  validate(reorderLessonsSchema),
+  reorderLessonsController.handle,
+);
 // Update Lesson
 router.patch(
   "/lessons/:lessonId",
@@ -58,13 +65,6 @@ router.delete(
   deleteLessonController.handle,
 );
 
-// Reorder Lessons
-router.patch(
-  "/lessons/reorder",
-  authenticate as any,
-  authorize("INSTRUCTOR", "ADMIN") as any,
-  validate(reorderLessonsSchema),
-  reorderLessonsController.handle,
-);
+
 
 export default router;

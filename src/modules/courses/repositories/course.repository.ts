@@ -11,7 +11,12 @@ export class CourseRepository {
       where: { slug },
     });
   }
-
+async findManyByInstructorId(instructorId: string): Promise<Course[]> {
+  return prisma.course.findMany({
+    where: { instructorId },
+    orderBy: { createdAt: 'desc' }, // Newest first is usually best for dashboards
+  });
+}
   async create(data: Prisma.CourseUncheckedCreateInput): Promise<Course> {
     return prisma.course.create({ data });
   }

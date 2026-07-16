@@ -19,6 +19,8 @@ import { ArchiveCourseController } from "../controllers/archive-course.controlle
 import { archiveCourseSchema } from "../schemas/archive-course.schema";
 import { DeleteCourseController } from "../controllers/delete-course.controller";
 import { deleteCourseSchema } from "../schemas/delete-course.schema";
+import { getInstructorCoursesSchema } from "../schemas/get-instructor-courses.schema";
+import { GetInstructorCoursesController } from "../controllers/get-instructor-courses.controller";
 
 const router = Router();
 const createCourseController = new CreateCourseController();
@@ -29,6 +31,7 @@ const publishCourseController = new PublishCourseController();
 const unpublishCourseController = new UnpublishCourseController();
 const archiveCourseController = new ArchiveCourseController();
 const deleteCourseController = new DeleteCourseController();
+const getInstructorCoursesController = new GetInstructorCoursesController();
 
 router.post(
   "/courses",
@@ -36,6 +39,13 @@ router.post(
   authorize("INSTRUCTOR", "ADMIN") as any,
   validate(createCourseSchema),
   createCourseController.handle,
+);
+router.get(
+  "/courses/instructor/me",
+  authenticate as any,
+  authorize("INSTRUCTOR", "ADMIN") as any,
+  validate(getInstructorCoursesSchema),
+  getInstructorCoursesController.handle,
 );
 router.get("/courses", validate(getCoursesSchema), getCoursesController.handle);
 router.get(

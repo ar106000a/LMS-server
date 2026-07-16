@@ -98,7 +98,7 @@ export class UploadVideoService {
       // Save the finalized storage URLs back to the database and update state to READY
       await this.videoContentRepo.updateByLessonId(lessonId, {
         videoUrl: uploadResult.videoUrl,
-        originalUrl: uploadResult.videoUrl, // Storing Cloudinary master secure link
+        // originalUrl: uploadResult.videoUrl, // Storing Cloudinary master secure link
         duration: uploadResult.duration,
         processingStatus: "READY",
       });

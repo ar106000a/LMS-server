@@ -15,7 +15,7 @@ export class CreateCourseService {
     // 1. Verify corresponding InstructorProfile exists for the given active User ID
     const instructorProfile = await this.instructorRepo.findByUserId(userId);
     if (!instructorProfile) {
-      throw new NotFoundError("Instruction Profile");
+      throw new NotFoundError("Instruction Profile not found for "+ userId);
     }
 
     // 2. Generate a resilient unique URL slug
