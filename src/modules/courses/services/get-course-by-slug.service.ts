@@ -14,7 +14,10 @@ export class GetCourseBySlugService {
     userContext?: { userId: string; role: string },
   ): Promise<Course> {
     // 1. Fetch data profile matching target slug parameter
-    const course = await this.courseRepo.findBySlug(slug);
+    let course = await this.courseRepo.findBySlug(slug);
+    if (!course && /^[0-9a-fA-F]{24}$/.test(slug)) {
+      course = await this.courseRepo.findById(slug);
+    }
     if (!course) {
       throw new NotFoundError("Course");
     }

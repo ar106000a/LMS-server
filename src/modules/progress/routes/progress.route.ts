@@ -20,7 +20,7 @@ const getLessonProgressController = new GetLessonProgressController();
 router.post(
   "/lessons/:lessonId/complete",
   authenticate as any,
-  authorize("STUDENT") as any,
+  authorize("STUDENT", "INSTRUCTOR", "ADMIN") as any,
   validate(completeLessonSchema),
   completeLessonController.handle,
 );
@@ -29,7 +29,7 @@ router.post(
 router.get(
   "/courses/:courseId/progress",
   authenticate as any,
-  authorize("STUDENT") as any,
+  authorize("STUDENT", "INSTRUCTOR", "ADMIN") as any,
   validate(getCourseProgressSchema),
   getCourseProgressController.handle,
 );
@@ -38,7 +38,7 @@ router.get(
 router.get(
   "/lessons/:lessonId/progress",
   authenticate as any,
-  authorize("STUDENT") as any, // Business Rule: Protect lesson player data states from malicious non-enrolled calls
+  authorize("STUDENT", "INSTRUCTOR", "ADMIN") as any, // Business Rule: Protect lesson player data states from malicious non-enrolled calls
   validate(getLessonProgressSchema),
   getLessonProgressController.handle,
 );

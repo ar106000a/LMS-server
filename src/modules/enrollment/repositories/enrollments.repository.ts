@@ -55,7 +55,6 @@ export class EnrollmentRepository {
           select: {
             id: true,
             title: true,
-            subtitle: true,
             thumbnailUrl: true,
             status: true,
           },
@@ -100,7 +99,7 @@ export class EnrollmentRepository {
     return prisma.enrollment.update({
       where: { id },
       data: {
-        progressPercent,
+        // progressPercent,
         ...(status && { status }),
       },
     });

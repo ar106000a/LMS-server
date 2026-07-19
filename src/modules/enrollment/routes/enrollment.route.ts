@@ -26,7 +26,7 @@ const suspendEnrollmentController = new SuspendEnrollmentController();
 router.post(
   "/courses/:courseId/enroll",
   authenticate as any,
-  authorize("STUDENT") as any,
+  authorize("STUDENT", "INSTRUCTOR", "ADMIN") as any,
   validate(enrollCourseSchema),
   enrollCourseController.handle,
 );
