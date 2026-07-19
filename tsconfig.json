@@ -18,7 +18,7 @@
     "skipLibCheck": true, // Skips checking type definitions of node_modules
 
     /* Projects */
-    "rootDir": "./src", // Outlines where your TypeScript code lives
+    "rootDir": "./", // Outlines where your TypeScript code lives
     "outDir": "./dist" // Where the compiled JavaScript will be generated
   },
   "include": ["src/**/*"], // Tells TS to only compile files inside the src folder
