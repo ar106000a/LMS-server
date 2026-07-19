@@ -2,7 +2,7 @@ import { CourseStatus, Course } from "../../../../generated/prisma/client";
 import { CourseRepository } from "../repositories/course.repository";
 import { InstructorRepository } from "../repositories/instructor.repository";
 import { CreateCourseDto } from "../dtos/create-course.dto";
-import { NotFoundError } from "../../../utils/error";
+import { AppError, NotFoundError } from "../../../utils/error";
 import { generateSlug } from "../../../shared/utils/slug";
 import { CloudinaryService } from "../../../shared/services/cloudinary.service";
 
@@ -34,8 +34,15 @@ export class CreateCourseService {
     let finalThumbnailUrl = dto.thumbnailUrl || null;
     
     if (fileBuffer) {
+      try{
       const uploadResult = await this.cloudinaryService.uploadImage(fileBuffer);
       finalThumbnailUrl = uploadResult.imageUrl;
+      }catch(error){
+        console.error("Cloudinary Upload Error:", error);
+        
+        // Throw a clean error to the frontend
+        throw new AppError("Failed to upload thumbnail. Please try again.", 502);
+      }
     }
 
     // 3. Persist entry inside database forcing standard initial status to DRAFT

@@ -40,14 +40,7 @@ router.get(
   getSectionsController.handle,
 );
 
-// Update Section Title
-router.patch(
-  "/sections/:sectionId",
-  authenticate as any,
-  authorize("INSTRUCTOR", "ADMIN") as any,
-  validate(updateSectionSchema),
-  updateSectionController.handle,
-);
+
 
 // Delete Section
 router.delete(
@@ -65,6 +58,15 @@ router.patch(
   authorize("INSTRUCTOR", "ADMIN") as any,
   validate(reorderSectionsSchema),
   reorderSectionsController.handle,
+);
+
+// Update Section Title
+router.patch(
+  "/sections/:sectionId",
+  authenticate as any,
+  authorize("INSTRUCTOR", "ADMIN") as any,
+  validate(updateSectionSchema),
+  updateSectionController.handle,
 );
 
 export default router;
