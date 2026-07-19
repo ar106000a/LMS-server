@@ -3,8 +3,8 @@
   "compilerOptions": {
     /* Base Options */
     "target": "ESNext",
-    "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
     "ignoreDeprecations": "6.0",
     "noImplicitAny": false,
 
