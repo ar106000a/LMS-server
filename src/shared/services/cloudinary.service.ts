@@ -52,4 +52,31 @@ export class CloudinaryService {
       console.error("Failed to clean up legacy Cloudinary asset:", error);
     }
   }
+  /**
+   * Synchronously uploads an image buffer to Cloudinary
+   */
+  async uploadImage(
+    fileBuffer: Buffer,
+    folderName: string = "lms/thumbnails",
+  ): Promise<{ imageUrl: string }> {
+    return new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: "image",
+          folder: folderName,
+        },
+        (error, result) => {
+          if (error || !result) {
+            return reject(error);
+          }
+          resolve({
+            imageUrl: result.secure_url,
+          });
+        },
+      );
+
+      // Write the buffer to the readable upload stream
+      uploadStream.end(fileBuffer);
+    });
+  }
 }

@@ -21,7 +21,7 @@ app.use(express.json({ limit: "50mb" }));
 app.use(cookieParser());
 
 //cors
-console.log(env.ORIGIN);
+// console.log(env.ORIGIN);
 app.use(cors({ origin: env.ORIGIN, credentials: true }));
 
 //Auth routes

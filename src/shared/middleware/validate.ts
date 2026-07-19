@@ -15,7 +15,7 @@ export const validate =
 
       // Attach the parsed query data for downstream controllers
       (req as any).validatedQuery = parsed.query;
-
+      
       next();
     } catch (error) {
       if (error instanceof ZodError) {

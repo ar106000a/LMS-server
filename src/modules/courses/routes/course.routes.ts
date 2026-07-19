@@ -9,6 +9,7 @@ import { GetCoursesController } from "../controllers/get-courses.controller";
 import { getCourseBySlugSchema } from "../schemas/get-course-by-slug";
 import { authenticateOptional } from "../../../shared/middleware/authenticateOptional";
 import { GetCourseBySlugController } from "../controllers/get-course-by-slug.controller";
+import { uploadImage } from "../../../shared/middleware/upload.middleware";
 import { UpdateCourseController } from "../controllers/update-course.controller";
 import { updateCourseSchema } from "../schemas/update-course.schema";
 import { PublishCourseController } from "../controllers/publish-course.controller";
@@ -36,8 +37,9 @@ const getInstructorCoursesController = new GetInstructorCoursesController();
 router.post(
   "/courses",
   authenticate as any,
+  uploadImage.single("thumbnail"),
   authorize("INSTRUCTOR", "ADMIN") as any,
-  validate(createCourseSchema),
+  // validate(createCourseSchema),
   createCourseController.handle,
 );
 router.get(

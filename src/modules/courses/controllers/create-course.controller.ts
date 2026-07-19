@@ -2,6 +2,7 @@ import { Response, NextFunction } from "express";
 import { AuthenticatedRequest } from "../../../shared/middleware/authenticate";
 import { CreateCourseService } from "../services/create-course.service";
 import { AppError } from "../../../utils/error";
+import { createCourseSchema } from "../schemas/create-course.schema";
 
 export class CreateCourseController {
   constructor(private createCourseService = new CreateCourseService()) {}
@@ -14,7 +15,9 @@ export class CreateCourseController {
     try {
       const userId = req.user!.userId; // Assured by authentication middleware layer
 
-      const course = await this.createCourseService.execute(userId, req.body);
+      const fileBuffer = req.file?.buffer;
+      const validatedData = createCourseSchema.parse(req.body);
+      const course = await this.createCourseService.execute(userId, validatedData, fileBuffer);
 
       res.status(201).json({
         success: true,

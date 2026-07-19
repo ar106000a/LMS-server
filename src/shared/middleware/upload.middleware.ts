@@ -22,3 +22,21 @@ export const upload = multer({
     }
   },
 });
+
+export const uploadImage = multer({
+  storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5 MB limit for images
+  },
+  fileFilter: (req, file, cb) => {
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(
+        new ValidationError(
+          "Invalid file type. Only image uploads (JPG, PNG, WebP) are permitted.",
+        ),
+      );
+    }
+  },
+});
