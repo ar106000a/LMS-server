@@ -37,6 +37,7 @@ export const sendEmail = async (
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
+      family:4,
       auth: {
         type: "OAuth2",
         user: SENDER_EMAIL,
@@ -44,7 +45,9 @@ export const sendEmail = async (
         clientId: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
+        
       },
+      
     } as any);
 
     const mailOptions = {
